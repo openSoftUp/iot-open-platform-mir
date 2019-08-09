@@ -1,0 +1,10 @@
+#服务名称
+spring:
+  application:
+    name: biz-server
+#端口
+server:
+  port: 8888
+
+
+        
