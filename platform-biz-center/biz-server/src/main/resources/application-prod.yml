@@ -40,7 +40,7 @@ spring:
       #打开PSCache，并且指定每个连接上PSCache的大小
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
-      validation-query: SELECT 'x'
+      validation-query: SELECT 1 from dual
       test-on-borrow: false
       test-on-return: false 
       test-while-idle: true      
@@ -70,7 +70,7 @@ spring:
 ################### redis 单机版 start ########################## 
     host: 127.0.0.1
     password: open_iot_123
-    port: 6379    
+    port: 6379
     timeout: 6000
     database: 2
     lettuce:
