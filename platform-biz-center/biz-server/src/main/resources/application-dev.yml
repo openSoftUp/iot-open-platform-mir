@@ -2,7 +2,7 @@ spring:
   mqtt:
     username: admin
     mqpassword: public
-    host-url: tcp://139.159.140.120:1883
+    host-url: tcp://127.0.0.1:1883
     client-id: biz_${random.value}
     default-topic: $SYS/brokers/+/clients/    #
     completionTimeout: 3000
