@@ -1,6 +1,5 @@
 # iot-open-platform-mir
 物联网服务架构
-技术栈：springboot2.x
 运行环境：JDK8+,MYSQL5.7+,REDIS,MONGO4,EMQ2.3+
 redis需要开启事件通知功能：Egx
 初始账号密码：admin/app
