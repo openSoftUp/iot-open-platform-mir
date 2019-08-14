@@ -105,16 +105,10 @@ public class OAuth2ServerConfig {
                 endpoints.tokenStore(jwtTokenStore).authenticationManager(authenticationManager)
                         // 支持
                         .userDetailsService(userDetailsService);
-                // password
-                // grant
-                // type;
             } else if (redisTokenStore != null) {
                 endpoints.tokenStore(redisTokenStore).authenticationManager(authenticationManager)
                         // 支持
                         .userDetailsService(userDetailsService);
-                // password
-                // grant
-                // type;
             }
 
             if (jwtAccessTokenConverter != null) {
@@ -159,9 +153,11 @@ public class OAuth2ServerConfig {
         private PermitUrlProperties permitUrlProperties;
 
         public void configure(WebSecurity web) throws Exception {
-            web.ignoring().antMatchers("/health");
+//            web.ignoring().antMatchers("/health");
+//        	web.ignoring().antMatchers("/oauth/client/token");
             web.ignoring().antMatchers("/oauth/user/token");
-            web.ignoring().antMatchers("/oauth/client/token");
+            web.ignoring().antMatchers("/oauth/user/token/pwd");
+            
         }
 
         @Override
@@ -190,6 +186,9 @@ public class OAuth2ServerConfig {
                             if (antPathMatcher.match(request.getRequestURI(), "/oauth/userinfo")) {
                                 return true;
                             }
+                            if (antPathMatcher.match(request.getRequestURI(), "/oauth/user/token/pwd")) {
+                                return true;
+                            }
                             if (antPathMatcher.match(request.getRequestURI(), "/oauth/remove/token")) {
                                 return true;
                             }
@@ -200,18 +199,7 @@ public class OAuth2ServerConfig {
                                 return true;
                             }
 
-                            if (antPathMatcher.match(request.getRequestURI(), "/oauth/token/list")) {
-                                return true;
-                            }
-
                             if (antPathMatcher.match("/clients/**", request.getRequestURI())) {
-                                return true;
-                            }
-
-                            if (antPathMatcher.match("/services/**", request.getRequestURI())) {
-                                return true;
-                            }
-                            if (antPathMatcher.match("/redis/**", request.getRequestURI())) {
                                 return true;
                             }
                             return false;

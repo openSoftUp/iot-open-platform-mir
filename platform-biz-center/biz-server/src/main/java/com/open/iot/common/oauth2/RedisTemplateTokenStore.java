@@ -68,9 +68,6 @@ public class RedisTemplateTokenStore implements TokenStore {
 		OAuth2AccessToken accessToken = (OAuth2AccessToken) redisTemplate.opsForValue().get(AUTH_TO_ACCESS + key);
 		if (accessToken != null
 				&& !key.equals(authenticationKeyGenerator.extractKey(readAuthentication(accessToken.getValue())))) {
-			// Keep the stores consistent (maybe the same user is represented by
-			// this authentication but the details
-			// have changed)
 			storeAccessToken(accessToken, authentication);
 		}
 		return accessToken;
@@ -211,9 +208,6 @@ public class RedisTemplateTokenStore implements TokenStore {
 
 					if (oauth2AccessToken instanceof DefaultOAuth2AccessToken) {
 						DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) oauth2AccessToken;
-//						Calendar cal = Calendar.getInstance();
-//						cal.add(Calendar.DATE, 30);
-//						Date date = cal.getTime();
 						/**
 						 * 	自动续费 30分钟
 						 */
@@ -264,8 +258,6 @@ public class RedisTemplateTokenStore implements TokenStore {
 
 			String clientId = authentication.getOAuth2Request().getClientId();
 
-			// redisTemplate.opsForList().rightPush("UNAME_TO_ACCESS:"+getApprovalKey(authentication),
-			// token) ;
 			redisTemplate.opsForList().leftPop(UNAME_TO_ACCESS + getApprovalKey(clientId, authentication.getName()));
 
 			redisTemplate.opsForList().leftPop(CLIENT_ID_TO_ACCESS + clientId);

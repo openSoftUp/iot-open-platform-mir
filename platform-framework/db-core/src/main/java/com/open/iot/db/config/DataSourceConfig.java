@@ -70,7 +70,6 @@ public class DataSourceConfig {
 		sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:com/open/**/dao/*.xml"));
 
 		MybatisConfiguration configuration = new MybatisConfiguration();
-		// configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
 		configuration.setLogImpl(org.apache.ibatis.logging.stdout.StdOutImpl.class);
 		configuration.setMapUnderscoreToCamelCase(true);
 		configuration.setCacheEnabled(false);
