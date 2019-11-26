@@ -1,8 +1,11 @@
 package com.open.iot.db.config;
 
 
-import javax.sql.DataSource;
-
+import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.open.iot.db.config.util.DataSourceKey;
+import com.open.iot.db.config.util.DynamicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -13,11 +16,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
-import com.baomidou.mybatisplus.core.MybatisConfiguration;
-import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import com.open.iot.db.config.util.DataSourceKey;
-import com.open.iot.db.config.util.DynamicDataSource;
+import javax.sql.DataSource;
 
 /**
  * 
@@ -28,7 +27,7 @@ import com.open.iot.db.config.util.DynamicDataSource;
 *
  */
 @Configuration
-@ConditionalOnProperty(name = {"spring.datasource.dynamic.enable"}, matchIfMissing = false, havingValue = "true")
+@ConditionalOnProperty(name = {"spring.datasource.dynamic.enable"}, havingValue = "true")
 public class DataSourceConfig {
 
 //	TP：Spring Boot 2.X 版本不再支持配置继承，多数据源的话每个数据源的所有配置都需要单独配置，否则配置不会生效
