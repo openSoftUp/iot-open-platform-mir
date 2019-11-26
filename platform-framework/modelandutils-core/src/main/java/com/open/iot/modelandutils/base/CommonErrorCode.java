@@ -2,12 +2,14 @@ package com.open.iot.modelandutils.base;
 
 /**
  * 公共错误码
- * @author Administrator
- *
+ * @author hy
+ *@date 201911/26
  */
 public enum CommonErrorCode {
-	
-	
+
+	/**
+	 *
+	 */
 	OPERATION_SUCCESS(0, "操作成功"),
 
 	/**
@@ -40,10 +42,7 @@ public enum CommonErrorCode {
 	 * 缺少参数
 	 */
 	MISSING_ARGUMENT(10000006, "缺少参数"),
-//	/**
-//	 * 非法访问
-//	 */
-//	ILLEGAL_ACCESS(100007, "非法访问,没有认证"),
+
 	/**
 	 * 权限不足
 	 */
@@ -59,13 +58,12 @@ public enum CommonErrorCode {
 	 */
 	ILLEGAL_ARGUMENT_TYPE(1000010, "参数类型错误"),
 
-	// 参数长度限制
+	/**
+	 *
+	 */
 	ARGUMENT_LENGTH_LIMIT(1000011, "参数长度超过限制"),
 	
-//	/**
-//	 * 用户或密码错误
-//	 */
-//	USER_PWD_ERROR(10000401, "用户或密码错误"),
+
 	/**
 	 * 凭证无效
 	 */
@@ -75,8 +73,10 @@ public enum CommonErrorCode {
 	 * 系统内部错误
 	 */
 	INTERNAL_SERVER_ERROR(10000000, "系统错误"),
-	
-	
+
+	/**
+	 *
+	 */
 	DEVICE_NOT_FOUND(20001, "设备不存在");
 
 	private final int value;

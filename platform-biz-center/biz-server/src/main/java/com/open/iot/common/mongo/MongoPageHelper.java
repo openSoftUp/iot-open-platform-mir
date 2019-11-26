@@ -1,9 +1,6 @@
 package com.open.iot.common.mongo;
 
 import com.google.common.collect.Lists;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -13,6 +10,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -26,7 +27,6 @@ import org.springframework.stereotype.Component;
 public class MongoPageHelper {
 
     public static final int FIRST_PAGE_NUM = 1;
-   // public static final String ID = "_id";
     public static final String ID = "id";
     private final MongoTemplate mongoTemplate;
 
@@ -90,7 +90,7 @@ public class MongoPageHelper {
         final Criteria criteria = new Criteria();
         if (StringUtils.isNotBlank(lastId)) {
             if (pageNum != FIRST_PAGE_NUM) {
-                criteria.and(ID).gt(lastId/*new ObjectId(lastId)*/);
+                criteria.and(ID).gt(lastId);
             }
             query.limit(pageSize);
         } else {
