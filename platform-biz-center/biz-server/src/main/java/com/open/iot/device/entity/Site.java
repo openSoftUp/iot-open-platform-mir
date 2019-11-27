@@ -36,4 +36,10 @@ public class Site extends BaseEntity {
      */
     @TableField
     private String teamId;
+
+    /**
+     * 地址
+     */
+    @TableField
+    private String address;
 }

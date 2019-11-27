@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @ToString
 @TableName("tb_hole")
-public class Hole extends BaseEntity{
+public class Hole extends BaseEntity {
 
     /**
      * 主键
@@ -52,4 +52,13 @@ public class Hole extends BaseEntity{
      */
     @TableField
     private State state;
+
+    /**
+     * 是否可用
+     *
+     * @return
+     */
+    public boolean available() {
+        return State.IDLE == state;
+    }
 }
