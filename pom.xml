@@ -202,7 +202,7 @@
 					<include>**/*.xsd</include>
 					<include>**/*.ftl</include>
 				</includes>
-				<filtering>false</filtering>
+				<filtering>true</filtering>
 			</resource>
 			<resource>
 				<directory>src/main/java</directory>

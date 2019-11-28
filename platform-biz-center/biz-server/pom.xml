@@ -7,7 +7,9 @@
 		<version>1.0.0</version>
 	</parent>
 	<artifactId>biz-server</artifactId>
-	
+
+	<name>iot-biz</name>
+
 	<dependencies>
 		
 		<dependency>
@@ -32,7 +34,7 @@
 			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
 
-		<!-- -->
+		<!--redis -->
 		<dependency>
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session-data-redis</artifactId>
