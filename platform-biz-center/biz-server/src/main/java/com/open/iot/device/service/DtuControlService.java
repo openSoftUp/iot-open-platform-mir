@@ -1,5 +1,6 @@
 package com.open.iot.device.service;
 
+import com.open.iot.common.service.JdbcService;
 import com.open.iot.device.entity.DtuControl;
 
 /**

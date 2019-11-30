@@ -1,9 +1,9 @@
-package com.open.iot.device.service.impl;
+package com.open.iot.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.open.iot.device.service.JdbcService;
+import com.open.iot.common.service.JdbcService;
 
 import java.io.Serializable;
 import java.util.Optional;

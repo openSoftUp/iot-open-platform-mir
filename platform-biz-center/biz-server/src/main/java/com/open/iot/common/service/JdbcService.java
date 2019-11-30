@@ -1,4 +1,4 @@
-package com.open.iot.device.service;
+package com.open.iot.common.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;

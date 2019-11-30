@@ -5,9 +5,10 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
+/**
+ * @author huyong
+ */
 @EnableLogging
-@MapperScan(basePackages = {"com.open.iot"})
 @SpringBootApplication
 public class BizServerApp {
 
