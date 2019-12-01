@@ -2,7 +2,7 @@ spring:
   mqtt:
     username: admin
     mqpassword: public
-    host-url: tcp://127.0.0.1:1883
+    host-url: tcp://172.26.225.115:1883
     client-id: biz_${random.value}
     default-topic: $SYS/brokers/+/clients/    #
     completionTimeout: 3000
@@ -10,11 +10,11 @@ spring:
   data:
     mongodb: 
       authentication-database: admin
-      host: 127.0.0.1
-      port: 27000
+      host: 172.26.225.115
+      port: 27017
       database: iot_open_platform
       username: root
-      password: root
+      password: renyimenadmin
   session:
     store-type: redis  
   datasource:
@@ -22,12 +22,12 @@ spring:
       enable: true
     druid: 
       core:
-        url: jdbc:mysql://127.0.0.1:3306/open_iot_biz_center?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai 
+        url: jdbc:mysql://172.26.225.115:3306/open_iot_biz_center?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai 
         username: root
         password: root
         driver-class-name:  com.mysql.cj.jdbc.Driver
       log:
-        url: jdbc:mysql://127.0.0.1:3306/open_iot_log_center?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai 
+        url: jdbc:mysql://172.26.225.115:3306/open_iot_log_center?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai 
         username: root
         password: root
         driver-class-name:  com.mysql.cj.jdbc.Driver  
@@ -68,8 +68,8 @@ spring:
 ################### mysq end ##########################
   redis:
 ################### redis 单机版 start ########################## 
-    host: 127.0.0.1
-    password: root
+    host: 172.26.225.115
+    password: renyimenadmin
     port: 6379    
     timeout: 6000
     database: 2
