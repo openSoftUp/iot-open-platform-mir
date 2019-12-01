@@ -43,8 +43,8 @@ public class OauthClientSiteController {
 	 * @return
 	 * @throws JsonProcessingException 
 	 */
-	@ApiOperation(value = "列表")
-	@GetMapping("/list")
+	@ApiOperation(value = "分页列表")
+	@GetMapping("/page/list")
 	@LogAnnotation(module="biz-center",recordRequestParam=false)
 	public Result<?> findPage(PageRequest pageRequest,String clientId) throws JsonProcessingException {
 		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
