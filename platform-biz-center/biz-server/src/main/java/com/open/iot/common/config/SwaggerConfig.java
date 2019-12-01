@@ -41,15 +41,15 @@ public class SwaggerConfig implements WebMvcConfigurer {
 		parameterType("header").required(false).build();
 		
 		
-		ParameterBuilder clientPar = new ParameterBuilder();
-		clientPar.name("client_id").description("应用ID").
-		modelRef(new ModelRef("string")).
-		parameterType("header").required(false).build();
-		
-		ParameterBuilder secretPar = new ParameterBuilder();
-		secretPar.name("client_secret").description("应用密钥").
-		modelRef(new ModelRef("string")).
-		parameterType("header").required(false).build();
+//		ParameterBuilder clientPar = new ParameterBuilder();
+//		clientPar.name("client_id").description("应用ID").
+//		modelRef(new ModelRef("string")).
+//		parameterType("header").required(false).build();
+//		
+//		ParameterBuilder secretPar = new ParameterBuilder();
+//		secretPar.name("client_secret").description("应用密钥").
+//		modelRef(new ModelRef("string")).
+//		parameterType("header").required(false).build();
 		
 		pars.add(tokenPar.build());
 		
@@ -69,6 +69,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 						PathSelectors.regex("/users.*").apply(input) || 
 						PathSelectors.regex("/permissions.*").apply(input)|| 
 						PathSelectors.regex("/roles.*").apply(input) ||
+						PathSelectors.regex("/client.*").apply(input) ||
 						PathSelectors.regex("/redis.*").apply(input)
 						
 				      )
@@ -76,7 +77,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("认证中心swagger接口文档").description("认证中心swagger接口文档").version("1.0").build();
+		return new ApiInfoBuilder().title("任意门接口文档").description("任意门接口文档").version("1.0").build();
 	}
 
 	@Bean

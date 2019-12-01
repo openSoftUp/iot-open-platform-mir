@@ -16,6 +16,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.open.iot.auth.dao.ClientDao;
 import com.open.iot.auth.model.Client;
 import com.open.iot.auth.service.ClientService;
+import com.open.iot.modelandutils.base.CommonErrorCode;
+import com.open.iot.modelandutils.base.Result;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -90,5 +92,20 @@ public class ClientServiceImpl implements ClientService {
 		// TODO Auto-generated method stub
 		return clientDao.findList(params);
 	}
+	
+	@Override
+    public Result saveOrUpdate(Client client) {
+		client.setClientSecret(passwordEncoder.encode(client.getClientSecretStr()));
+        if (client.getId() != null) {// 修改
+            clientDao.update(client);
+        } else {// 新增
+            Client r = clientDao.getClient(client.getClientId());
+            if (r != null) {
+                return Result.failed(client.getClientId()+"已存在");
+            }
+            clientDao.save(client);
+        }
+        return Result.succeed(CommonErrorCode.OPERATION_SUCCESS.getMessage());
+    }
 
 }

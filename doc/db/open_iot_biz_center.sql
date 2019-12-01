@@ -196,3 +196,19 @@ CREATE TABLE `sys_user` (
 INSERT INTO `sys_user` (`id`, `username`, `password`, `nickname`, `headImgUrl`, `phone`, `sex`, `enabled`, `type`, `createTime`, `updateTime`) VALUES ('1', 'admin', '$2a$10$i3F515wEDiB4Gvj9ym9Prui0dasRttEUQ9ink4Wpgb4zEDCAlV8zO', '管理员', 'http://image.jpg', '13106975707', '1', '1', 'BACKEND', '2019-08-06 16:47:55', '2019-08-06 16:47:55');
 INSERT INTO `sys_user` (`id`, `username`, `password`, `nickname`, `headImgUrl`, `phone`, `sex`, `enabled`, `type`, `createTime`, `updateTime`) VALUES ('2', 'test', '$2a$10$i3F515wEDiB4Gvj9ym9Prui0dasRttEUQ9ink4Wpgb4zEDCAlV8zO', '测试账户', 'http://baidu.image.jpg', '13851539156', '0', '0', 'APP', '2019-08-06 16:47:55', '2019-08-06 16:47:55');
 
+
+
+
+# --netdevice mgr start
+#
+# Structure for table "oauth_client_site"
+#
+
+DROP TABLE IF EXISTS `oauth_client_site`;
+CREATE TABLE `oauth_client_site` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `client_id` varchar(48) NOT NULL COMMENT '应用标识',
+  `site_ids` varchar(256) DEFAULT NULL COMMENT '站点限定串(逗号分割)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '站点与客户端权限配置';
+
