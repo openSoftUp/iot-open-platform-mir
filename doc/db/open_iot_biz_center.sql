@@ -210,5 +210,5 @@ CREATE TABLE `oauth_client_site` (
   `client_id` varchar(48) NOT NULL COMMENT '应用标识',
   `site_ids` varchar(256) DEFAULT NULL COMMENT '站点限定串(逗号分割)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '站点与客户端权限配置;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '站点与客户端权限配置';
 
