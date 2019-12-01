@@ -1,12 +1,15 @@
 package com.open.iot.auth.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,18 +23,23 @@ import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.TokenRequest;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenGranter;
 import org.springframework.security.oauth2.provider.refresh.RefreshTokenGranter;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
+import com.open.iot.annotation.log.LogAnnotation;
 import com.open.iot.common.oauth2.RedisClientDetailsService;
+import com.open.iot.dto.AppAuthDto;
 import com.open.iot.modelandutils.base.CommonErrorCode;
 import com.open.iot.modelandutils.base.Result;
 import com.open.iot.utils.SpringUtil;
@@ -50,6 +58,9 @@ public class OAuth2Controller {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Resource
+	private ObjectMapper objectMapper; // springmvc启动时自动装配json处理类
 
 	@Autowired
 	private TokenStore tokenStore;
@@ -251,6 +262,52 @@ public class OAuth2Controller {
 		log.debug("认证详细信息{}:"+ SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 		log.info("返回信息:{}", userInfo);
 		return Result.succeed(userInfo, CommonErrorCode.OPERATION_SUCCESS.getMessage());
+	}
+	
+	@ApiOperation(value = "clientId获取token")
+	@PostMapping("/client/token")
+	@LogAnnotation(module = "biz-server", recordRequestParam = false)
+	public Result<?> getClientTokenInfo(@RequestBody AppAuthDto dto) {
+
+		String clientId = dto.getClientId();
+		String clientSecret = dto.getClientSecret();
+		try {
+			if (clientId == null || "".equals(clientId)) {
+				throw new UnapprovedClientAuthenticationException("请求参数中无clientId信息");
+			}
+			if (clientSecret == null || "".equals(clientSecret)) {
+				throw new UnapprovedClientAuthenticationException("请求参数中无clientSecret信息");
+			}
+			RedisClientDetailsService clientDetailsService = SpringUtil.getBean(RedisClientDetailsService.class);
+			ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
+			if (clientDetails == null) {
+				throw new UnapprovedClientAuthenticationException("clientId对应的信息不存在");
+			} else if (!passwordEncoder.matches(clientSecret, clientDetails.getClientSecret())) {
+				throw new UnapprovedClientAuthenticationException("clientSecret不匹配");
+			}
+			Map<String, String> map = new HashMap<>();
+			map.put("client_secret", clientSecret);
+			map.put("client_id", clientId);
+			map.put("grant_type", "client_credentials");
+			TokenRequest tokenRequest = new TokenRequest(map, clientId, clientDetails.getScope(), "client_credentials");
+			OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
+			AuthorizationServerTokenServices authorizationServerTokenServices = SpringUtil
+					.getBean("defaultAuthorizationServerTokenServices", AuthorizationServerTokenServices.class);
+			OAuth2RequestFactory requestFactory = new DefaultOAuth2RequestFactory(clientDetailsService);
+			ClientCredentialsTokenGranter clientCredentialsTokenGranter = new ClientCredentialsTokenGranter(
+					authorizationServerTokenServices, clientDetailsService, requestFactory);
+			clientCredentialsTokenGranter.setAllowRefresh(true);
+			OAuth2AccessToken oAuth2AccessToken = clientCredentialsTokenGranter.grant("client_credentials",
+					tokenRequest);
+			return Result.succeed(oAuth2AccessToken, CommonErrorCode.OPERATION_SUCCESS.getMessage());
+		} catch (Exception e) {
+			Map<String, Object> rsp = new HashMap<>();
+			rsp.put("code", HttpStatus.UNAUTHORIZED.value());
+			rsp.put("msg", e.getMessage());
+			Result result = Result.failedWith(rsp, CommonErrorCode.UNAUTHORIZED.value(), CommonErrorCode.UNAUTHORIZED.getMessage());
+			return result;
+
+		}
 	}
 
 }
