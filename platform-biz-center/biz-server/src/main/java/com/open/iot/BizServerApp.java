@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @EnableLogging
-@MapperScan(basePackages = {"com.open.iot"})
+//@MapperScan(basePackages = {"com.open.iot"})
 @SpringBootApplication
 public class BizServerApp {
 
