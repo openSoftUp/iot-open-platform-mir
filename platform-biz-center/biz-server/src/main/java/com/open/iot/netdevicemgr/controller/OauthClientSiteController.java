@@ -5,8 +5,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.open.iot.annotation.log.LogAnnotation;
 import com.open.iot.modelandutils.base.CommonErrorCode;
-import com.open.iot.modelandutils.base.PageRequest;
 import com.open.iot.modelandutils.base.Result;
+import com.open.iot.netdevicemgr.dto.OauthClientSiteDto;
 import com.open.iot.netdevicemgr.entity.OauthClientSite;
 import com.open.iot.netdevicemgr.service.OauthClientSiteService;
 
@@ -26,6 +26,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -45,11 +46,10 @@ public class OauthClientSiteController {
 	 */
 	@ApiOperation(value = "分页列表")
 	@GetMapping("/page/list")
-	@LogAnnotation(module="biz-center",recordRequestParam=false)
-	public Result<?> findPage(PageRequest pageRequest,String clientId) throws JsonProcessingException {
-		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+	public Result<?> findPage(OauthClientSiteDto dto) throws JsonProcessingException {
+		PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
 		QueryWrapper<OauthClientSite> queryWrapper = new QueryWrapper<OauthClientSite>();
-		if(StringUtils.isNotBlank(clientId)) queryWrapper.lambda().eq(OauthClientSite::getClientId, clientId);
+		if(StringUtils.isNotBlank(dto.getClientId())) queryWrapper.lambda().eq(OauthClientSite::getClientId, dto.getClientId());
 		List<OauthClientSite> allList = oauthClientSiteService.list(queryWrapper);
 		PageInfo<OauthClientSite> pageInfo = new PageInfo<>(allList);
 		return Result.succeed(pageInfo, CommonErrorCode.OPERATION_SUCCESS.getMessage());
@@ -64,6 +64,9 @@ public class OauthClientSiteController {
 	@PostMapping("/save")
 	@LogAnnotation(module="biz-center",recordRequestParam=false)
 	public Result<?> save(@RequestBody OauthClientSite oauthClientSite) throws JsonProcessingException {
+		Date curDate = new Date();
+		oauthClientSite.setCreateTime(curDate);
+		oauthClientSite.setUpdateTime(curDate);
 		boolean flag = oauthClientSiteService.save(oauthClientSite);
 		if(flag) {
 			return Result.succeed(oauthClientSite, CommonErrorCode.OPERATION_SUCCESS.getMessage());
@@ -80,6 +83,8 @@ public class OauthClientSiteController {
 	@PostMapping("/update")
 	@LogAnnotation(module="biz-center",recordRequestParam=false)
 	public Result<?> update(@RequestBody OauthClientSite oauthClientSite) throws JsonProcessingException {
+		Date curDate = new Date();
+		oauthClientSite.setUpdateTime(curDate);
 		boolean flag = oauthClientSiteService.updateById(oauthClientSite);
 		if(flag) {
 			return Result.succeed(oauthClientSite, CommonErrorCode.OPERATION_SUCCESS.getMessage());
@@ -92,10 +97,10 @@ public class OauthClientSiteController {
 	 * @param id
 	 */
 	@ApiOperation(value = "删除")
-	@PostMapping("/delete/{id}")
+	@PostMapping("/delete/{clientId}")
 	@LogAnnotation(module="user-center",recordRequestParam=false)
-	public Result<?> delete(@PathVariable Integer id) {
-		boolean flag = oauthClientSiteService.removeById(id);
+	public Result<?> delete(@PathVariable String clientId) {
+		boolean flag = oauthClientSiteService.removeById(clientId);
 		if(flag) {
 			return Result.succeed();
 		}
@@ -107,10 +112,9 @@ public class OauthClientSiteController {
 	 * @param id
 	 */
 	@ApiOperation(value = "获取")
-	@PostMapping("/get/{id}")
-	@LogAnnotation(module="user-center",recordRequestParam=false)
-	public Result<?> get(@PathVariable Integer id) {
-		OauthClientSite oauthClientSite = oauthClientSiteService.getById(id);
+	@PostMapping("/get/{clientId}")
+	public Result<?> get(@PathVariable String clientId) {
+		OauthClientSite oauthClientSite = oauthClientSiteService.getById(clientId);
 		return Result.succeed(oauthClientSite, CommonErrorCode.OPERATION_SUCCESS.getMessage());
 	}
 

@@ -204,11 +204,241 @@ INSERT INTO `sys_user` (`id`, `username`, `password`, `nickname`, `headImgUrl`, 
 # Structure for table "oauth_client_site"
 #
 
+DROP TABLE IF EXISTS `device_class_type_info`;
+CREATE TABLE `device_class_type_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `class_type_name` varchar(48) DEFAULT NULL COMMENT '设备类型名称',
+  `class_type_remark` varchar(200) DEFAULT NULL COMMENT '备注信息',
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '设备类型信息';
+
+DROP TABLE IF EXISTS `device_product_type_info`;
+CREATE TABLE `device_product_type_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `product_type_name` varchar(48) DEFAULT NULL COMMENT '设备型号',
+  `product_type_params` varchar(200) DEFAULT NULL COMMENT '设备型号参数',
+  `product_type_remark` varchar(200) DEFAULT NULL COMMENT '备注信息',
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `class_type_id` int(11) DEFAULT NULL COMMENT '对应的设备类型ID',
+  `factory_id` int(11) DEFAULT NULL COMMENT '设备厂家',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '设备型号信息';
+
+DROP TABLE IF EXISTS `device_factory_info`;
+CREATE TABLE `device_factory_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `factory_name` varchar(48) DEFAULT NULL COMMENT '厂家名称',
+  `factory_tax_num` varchar(48) DEFAULT NULL COMMENT '厂家税号',
+  `factory_addr` varchar(200) DEFAULT NULL COMMENT '地址',
+  `bank_name` varchar(200) DEFAULT NULL COMMENT '厂家开户行',
+  `bank_account` varchar(200) DEFAULT NULL COMMENT '厂家银行账号',
+  `contact_man` varchar(48) DEFAULT NULL COMMENT '厂家联系人姓名',
+  `contact_tel` varchar(48) DEFAULT NULL COMMENT '厂家联系电话',
+  `contact_email` varchar(48) DEFAULT NULL COMMENT '厂家联系邮件',
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '设备厂家信息';
+
+DROP TABLE IF EXISTS site_group;
+CREATE TABLE  site_group (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `group_name` varchar(255) NOT NULL COMMENT '分组',
+  `group_remark` varchar(255) DEFAULT NULL COMMENT '分组备注',
+  `parent_id` int(11) DEFAULT NULL COMMENT '父分组ID',
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+   PRIMARY KEY (id) 
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='站点分组模型';
+INSERT INTO `site_group` (`id`, `group_name`, `group_remark`, `parent_id`, `state`, `create_time`, `update_time`) VALUES ('1', '全部','全部', '-1', '1', now(),  now());
+
+
+DROP TABLE IF EXISTS site;
+CREATE TABLE  site (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_name` varchar(100) NOT NULL COMMENT '站点名称',
+  `site_addr` varchar(255) DEFAULT NULL COMMENT '站点位置',
+  `site_remark` varchar(255) DEFAULT NULL COMMENT '分组备注',  
+  `group_id` int(11) DEFAULT NULL COMMENT '所属站点分组',
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+   PRIMARY KEY (id) 
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='站点模型';
+
+
+DROP TABLE IF EXISTS contacts_info;
+CREATE TABLE  contacts_info (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `contact_name` varchar(100) NOT NULL COMMENT '联系人名称',
+  `contact_tel` varchar(255) NOT NULL COMMENT '联系人电话',
+  `contact_email` varchar(255) DEFAULT NULL COMMENT '联系人邮件',  
+  `contact_group_code` varchar(50) DEFAULT NULL COMMENT '所属站点分组',
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+   PRIMARY KEY (id) 
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='联系人信息';
+
+
+DROP TABLE IF EXISTS `site_contacts_info`;
+CREATE TABLE `site_contacts_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `site_id` int(11) NOT NULL  COMMENT '站点ID',
+  `contact_id` int(11) NOT NULL COMMENT '联系人ID',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (id) 
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '站点与联系人对应关系，多对多';
+
 DROP TABLE IF EXISTS `oauth_client_site`;
 CREATE TABLE `oauth_client_site` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `client_id` varchar(48) NOT NULL COMMENT '应用标识',
-  `site_ids` varchar(256) DEFAULT NULL COMMENT '站点限定串(逗号分割)',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '站点与客户端权限配置';
+  `site_ids` varchar(255) NOT NULL COMMENT '站点IDs,多个用逗号隔开',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`client_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '站点与客户端权限配置，多对多';
 
+
+DROP TABLE IF EXISTS `device_dtu_control`;
+CREATE TABLE `device_dtu_control` (
+  `serial_no` varchar(32) NOT NULL COMMENT '设备序列号',
+  `mac` varchar(32) DEFAULT NULL COMMENT '设备mac',
+  `sim_card` varchar(50) DEFAULT NULL COMMENT 'sim卡',
+  `device_name` varchar(50) DEFAULT NULL COMMENT '设备名称',
+  `dev_version` varchar(100) DEFAULT NULL COMMENT '设备的软件版本',
+  `site_id` int(11) DEFAULT NULL COMMENT '所属站点',
+  `remarks` varchar(200) DEFAULT NULL COMMENT '备注信息',
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `class_type` int(11)  DEFAULT NULL COMMENT '设备类型',
+  `product_type` int(11) DEFAULT NULL COMMENT '设备型号',
+  `create_user` varchar(50) DEFAULT NULL COMMENT '创建人',
+  `update_user` varchar(50) DEFAULT NULL COMMENT '更新人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL  COMMENT '更新时间',
+  PRIMARY KEY (`serial_no`),
+  KEY `DEV_DTU_CONTROL_INX_SITE_ID` (`site_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='DTU控制器';
+
+DROP TABLE IF EXISTS `device_lock_control_panel`;
+CREATE TABLE `device_lock_control_panel` (
+  `serial_no` varchar(32) NOT NULL COMMENT '设备序列号',
+  `mac` varchar(32) DEFAULT NULL COMMENT '设备mac',
+  `dial_num` int(1) NOT NULL  COMMENT '拨码,单个数字（0-9任一）',
+  `device_name` varchar(50) DEFAULT NULL COMMENT '设备名称',
+  `dev_version` varchar(100) DEFAULT NULL COMMENT '设备的软件版本',
+  `site_id` int(11) DEFAULT NULL COMMENT '所属站点',
+  `remarks` varchar(200) DEFAULT NULL COMMENT '备注信息',
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `class_type` int(11)  DEFAULT NULL COMMENT '设备类型',
+  `product_type` int(11) DEFAULT NULL COMMENT '设备型号',
+  `create_user` varchar(50) DEFAULT NULL COMMENT '创建人',
+  `update_user` varchar(50) DEFAULT NULL COMMENT '更新人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL  COMMENT '更新时间',
+  PRIMARY KEY (`serial_no`),
+  KEY `DEV_LOCAL_CONTROL_PANEL_INX_SITE_ID` (`site_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='锁控板';
+
+DROP TABLE IF EXISTS `device_cabinet_body`;
+CREATE TABLE `device_cabinet_body` (
+  `serial_no` varchar(32) NOT NULL COMMENT '设备序列号',
+  `mac` varchar(32) DEFAULT NULL COMMENT '设备mac',
+  `door_num` int(2) NOT NULL  COMMENT '柜门数量,单个数字（0-9任一）',
+  `configuration_info` varchar(50) DEFAULT NULL COMMENT '配件信息,根据业务所增加的配件信息',
+  `device_name` varchar(50) DEFAULT NULL COMMENT '设备名称',
+  `dev_version` varchar(100) DEFAULT NULL COMMENT '设备的软件版本',
+  `site_id` int(11) DEFAULT NULL COMMENT '所属站点',
+  `remarks` varchar(200) DEFAULT NULL COMMENT '备注信息',
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `class_type` int(11)  DEFAULT NULL COMMENT '设备类型',
+  `product_type` int(11) DEFAULT NULL COMMENT '设备型号',
+  `create_user` varchar(50) DEFAULT NULL COMMENT '创建人',
+  `update_user` varchar(50) DEFAULT NULL COMMENT '更新人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL  COMMENT '更新时间',
+  PRIMARY KEY (`serial_no`),
+  KEY `DEV_CABINET_BODY_INX_SITE_ID` (`site_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='柜体';
+
+DROP TABLE IF EXISTS `device_nvr`;
+CREATE TABLE `device_nvr` (
+  `serial_no` varchar(32) NOT NULL COMMENT '设备序列号',
+  `mac` varchar(32) DEFAULT NULL COMMENT '设备mac',
+  `product_time` datetime DEFAULT NULL COMMENT '生产日期',
+  `verification_code` varchar(50) DEFAULT NULL COMMENT '验证码,产品自带的验证码',
+  `dev_version` varchar(100) DEFAULT NULL COMMENT '设备的软件版本', 
+  `device_name` varchar(50) DEFAULT NULL COMMENT '设备名称',
+  `site_id` int(11) DEFAULT NULL COMMENT '所属站点',
+  `remarks` varchar(200) DEFAULT NULL COMMENT '备注信息',
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `class_type` int(11)  DEFAULT NULL COMMENT '设备类型',
+  `product_type` int(11) DEFAULT NULL COMMENT '设备型号',
+  `create_user` varchar(50) DEFAULT NULL COMMENT '创建人',
+  `update_user` varchar(50) DEFAULT NULL COMMENT '更新人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL  COMMENT '更新时间',
+  PRIMARY KEY (`serial_no`),
+  KEY `DEV_NVR_INX_SITE_ID` (`site_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='NVR';
+
+
+DROP TABLE IF EXISTS `device_camera`;
+CREATE TABLE `device_camera` (
+  `serial_no` varchar(32) NOT NULL COMMENT '设备序列号',
+  `mac` varchar(32) DEFAULT NULL COMMENT '设备mac',  
+  `product_time` datetime DEFAULT NULL COMMENT '生产日期',
+  `verification_code` varchar(50) DEFAULT NULL COMMENT '验证码,产品自带的验证码',
+  `dev_version` varchar(100) DEFAULT NULL COMMENT '设备的软件版本', 
+  `dev_user` varchar(50) DEFAULT NULL COMMENT '设备账号', 
+  `dev_password` varchar(50) DEFAULT NULL COMMENT '设备密码', 
+  `device_name` varchar(50) DEFAULT NULL COMMENT '设备名称',
+  `site_id` int(11) DEFAULT NULL COMMENT '所属站点',
+  `remarks` varchar(200) DEFAULT NULL COMMENT '备注信息',
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `class_type` int(11)  DEFAULT NULL COMMENT '设备类型',
+  `product_type` int(11) DEFAULT NULL COMMENT '设备型号',
+  `create_user` varchar(50) DEFAULT NULL COMMENT '创建人',
+  `update_user` varchar(50) DEFAULT NULL COMMENT '更新人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL  COMMENT '更新时间',
+  PRIMARY KEY (`serial_no`),
+  KEY `DEV_CAMERA_INX_SITE_ID` (`site_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='摄像头';
+
+DROP TABLE IF EXISTS site_resources_type;
+CREATE TABLE  site_resources_type (
+  `code` varchar(50) NOT NULL COMMENT '资源类型code',
+  `resources_type_remark` varchar(255) DEFAULT NULL COMMENT '备注', 
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `create_user` varchar(50) DEFAULT NULL COMMENT '创建人',
+  `update_user` varchar(50) DEFAULT NULL COMMENT '更新人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+   PRIMARY KEY (code) 
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='站点资源类型';
+
+DROP TABLE IF EXISTS site_resources;
+CREATE TABLE  site_resources (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `resources_name` varchar(255) NOT NULL COMMENT '资源名称',
+  `resources_remark` varchar(255) DEFAULT NULL COMMENT '资源备注', 
+  `resources_type_code` varchar(50) NOT NULL COMMENT '资源类型编码',
+  `resources_params` JSON DEFAULT NULL COMMENT '资源类型JSON参数，可根据资源类型动态变化，对应每种资源对象需定义清楚',
+  `work_state` int(1) DEFAULT 1 COMMENT '工作状态：1:空闲;2:占用;3:使用',
+  `state` int(2) DEFAULT 1 COMMENT '状态：1:启用;2:停用;3:删除',
+  `site_id` int(11) DEFAULT NULL COMMENT '所属站点',
+  `create_user` varchar(50) DEFAULT NULL COMMENT '创建人',
+  `update_user` varchar(50) DEFAULT NULL COMMENT '更新人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+   PRIMARY KEY (id) 
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='站点资源详情';
