@@ -70,6 +70,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 						PathSelectors.regex("/permissions.*").apply(input)|| 
 						PathSelectors.regex("/roles.*").apply(input) ||
 						PathSelectors.regex("/client.*").apply(input) ||
+						PathSelectors.regex("/device.*").apply(input) ||
 						PathSelectors.regex("/redis.*").apply(input)
 						
 				      )

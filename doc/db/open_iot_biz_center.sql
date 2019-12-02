@@ -209,6 +209,49 @@ CREATE TABLE `oauth_client_site` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `client_id` varchar(48) NOT NULL COMMENT '应用标识',
   `site_ids` varchar(256) DEFAULT NULL COMMENT '站点限定串(逗号分割)',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '站点与客户端权限配置';
 
+DROP TABLE IF EXISTS `device_class_type_info`;
+CREATE TABLE `device_class_type_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `class_type_name` varchar(48) DEFAULT NULL COMMENT '设备类型名称,设备供应商提供的设备序列号',
+  `class_type_remark` varchar(200) DEFAULT NULL COMMENT '备注信息',
+  `class_type_status` int(2) DEFAULT 1 COMMENT '1:启用;2:停用;3:删除',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '设备类型信息';
+
+DROP TABLE IF EXISTS `device_product_type_info`;
+CREATE TABLE `device_product_type_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `product_type_name` varchar(48) DEFAULT NULL COMMENT '设备型号，设备供应商提供的设备序列号',
+  `product_type_params` varchar(200) DEFAULT NULL COMMENT '设备型号参数',
+  `product_type_remark` varchar(200) DEFAULT NULL COMMENT '备注信息',
+  `product_type_status` int(2) DEFAULT 1 COMMENT '1:启用;2:停用;3:删除',
+  `class_type_id` int(11) DEFAULT NULL COMMENT '对应的设备类型ID',
+  `factory_id` int(11) DEFAULT NULL COMMENT '设备厂家',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '设备型号信息';
+
+DROP TABLE IF EXISTS `device_factory_info`;
+CREATE TABLE `device_factory_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `factory_name` varchar(48) DEFAULT NULL COMMENT '厂家名称',
+  `factory_tax_num` varchar(48) DEFAULT NULL COMMENT '厂家税号',
+  `factory_addr` varchar(200) DEFAULT NULL COMMENT '地址',
+  `bank_name` varchar(200) DEFAULT NULL COMMENT '厂家开户行',
+  `bank_account` varchar(200) DEFAULT NULL COMMENT '厂家银行账号',
+  `contact_man` varchar(48) DEFAULT NULL COMMENT '厂家联系人姓名',
+  `contact_tel` varchar(48) DEFAULT NULL COMMENT '厂家联系电话',
+  `contact_email` varchar(48) DEFAULT NULL COMMENT '厂家联系邮件',
+  `factory_status` int(2) DEFAULT 1 COMMENT '1:启用;2:停用;3:删除',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '设备厂家信息';

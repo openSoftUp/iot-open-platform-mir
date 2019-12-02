@@ -26,6 +26,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -45,7 +46,6 @@ public class OauthClientSiteController {
 	 */
 	@ApiOperation(value = "分页列表")
 	@GetMapping("/page/list")
-	@LogAnnotation(module="biz-center",recordRequestParam=false)
 	public Result<?> findPage(PageRequest pageRequest,String clientId) throws JsonProcessingException {
 		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
 		QueryWrapper<OauthClientSite> queryWrapper = new QueryWrapper<OauthClientSite>();
@@ -64,6 +64,9 @@ public class OauthClientSiteController {
 	@PostMapping("/save")
 	@LogAnnotation(module="biz-center",recordRequestParam=false)
 	public Result<?> save(@RequestBody OauthClientSite oauthClientSite) throws JsonProcessingException {
+		Date curDate = new Date();
+		oauthClientSite.setCreateTime(curDate);
+		oauthClientSite.setUpdateTime(curDate);
 		boolean flag = oauthClientSiteService.save(oauthClientSite);
 		if(flag) {
 			return Result.succeed(oauthClientSite, CommonErrorCode.OPERATION_SUCCESS.getMessage());
@@ -80,6 +83,8 @@ public class OauthClientSiteController {
 	@PostMapping("/update")
 	@LogAnnotation(module="biz-center",recordRequestParam=false)
 	public Result<?> update(@RequestBody OauthClientSite oauthClientSite) throws JsonProcessingException {
+		Date curDate = new Date();
+		oauthClientSite.setUpdateTime(curDate);
 		boolean flag = oauthClientSiteService.updateById(oauthClientSite);
 		if(flag) {
 			return Result.succeed(oauthClientSite, CommonErrorCode.OPERATION_SUCCESS.getMessage());
@@ -108,7 +113,6 @@ public class OauthClientSiteController {
 	 */
 	@ApiOperation(value = "获取")
 	@PostMapping("/get/{id}")
-	@LogAnnotation(module="user-center",recordRequestParam=false)
 	public Result<?> get(@PathVariable Integer id) {
 		OauthClientSite oauthClientSite = oauthClientSiteService.getById(id);
 		return Result.succeed(oauthClientSite, CommonErrorCode.OPERATION_SUCCESS.getMessage());
