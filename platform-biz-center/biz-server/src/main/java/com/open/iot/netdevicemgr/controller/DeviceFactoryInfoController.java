@@ -37,7 +37,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @Api(tags = "设备厂家信息 前端控制器api")
-@RequestMapping("/device/factory/")
+@RequestMapping("/device/factory")
 public class DeviceFactoryInfoController {
 
 	@Autowired

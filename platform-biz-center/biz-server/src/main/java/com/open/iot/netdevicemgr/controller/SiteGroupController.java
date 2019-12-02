@@ -103,10 +103,10 @@ public class SiteGroupController {
 	 * @param id
 	 */
 	@ApiOperation(value = "删除")
-	@PostMapping("/delete/{clientId}")
-	@LogAnnotation(module="user-center",recordRequestParam=false)
-	public Result<?> delete(@PathVariable String clientId) {
-		boolean flag = siteGroupService.removeById(clientId);
+	@PostMapping("/delete/{id}")
+	@LogAnnotation(module="biz-center",recordRequestParam=false)
+	public Result<?> delete(@PathVariable Integer id) {
+		boolean flag = siteGroupService.removeById(id);
 		if(flag) {
 			return Result.succeed();
 		}
@@ -118,9 +118,9 @@ public class SiteGroupController {
 	 * @param id
 	 */
 	@ApiOperation(value = "获取")
-	@PostMapping("/get/{clientId}")
-	public Result<?> get(@PathVariable String clientId) {
-		SiteGroup siteGroup = siteGroupService.getById(clientId);
+	@PostMapping("/get/{id}")
+	public Result<?> get(@PathVariable Integer id) {
+		SiteGroup siteGroup = siteGroupService.getById(id);
 		return Result.succeed(siteGroup, CommonErrorCode.OPERATION_SUCCESS.getMessage());
 	}
 }

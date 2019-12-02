@@ -98,7 +98,7 @@ public class OauthClientSiteController {
 	 */
 	@ApiOperation(value = "删除")
 	@PostMapping("/delete/{clientId}")
-	@LogAnnotation(module="user-center",recordRequestParam=false)
+	@LogAnnotation(module="biz-center",recordRequestParam=false)
 	public Result<?> delete(@PathVariable String clientId) {
 		boolean flag = oauthClientSiteService.removeById(clientId);
 		if(flag) {

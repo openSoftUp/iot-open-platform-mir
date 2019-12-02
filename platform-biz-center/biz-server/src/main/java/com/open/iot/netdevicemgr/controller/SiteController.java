@@ -102,10 +102,10 @@ public class SiteController {
 	 * @param id
 	 */
 	@ApiOperation(value = "删除")
-	@PostMapping("/delete/{clientId}")
-	@LogAnnotation(module="user-center",recordRequestParam=false)
-	public Result<?> delete(@PathVariable String clientId) {
-		boolean flag = siteService.removeById(clientId);
+	@PostMapping("/delete/{id}")
+	@LogAnnotation(module="biz-center",recordRequestParam=false)
+	public Result<?> delete(@PathVariable Integer id) {
+		boolean flag = siteService.removeById(id);
 		if(flag) {
 			return Result.succeed();
 		}
@@ -117,9 +117,9 @@ public class SiteController {
 	 * @param id
 	 */
 	@ApiOperation(value = "获取")
-	@PostMapping("/get/{clientId}")
-	public Result<?> get(@PathVariable String clientId) {
-		Site site = siteService.getById(clientId);
+	@PostMapping("/get/{id}")
+	public Result<?> get(@PathVariable Integer id) {
+		Site site = siteService.getById(id);
 		return Result.succeed(site, CommonErrorCode.OPERATION_SUCCESS.getMessage());
 	}
 }

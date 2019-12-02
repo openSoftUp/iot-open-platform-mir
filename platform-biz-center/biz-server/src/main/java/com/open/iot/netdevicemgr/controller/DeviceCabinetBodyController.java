@@ -102,10 +102,10 @@ public class DeviceCabinetBodyController {
 	 * @param id
 	 */
 	@ApiOperation(value = "删除")
-	@PostMapping("/delete/{clientId}")
-	@LogAnnotation(module="user-center",recordRequestParam=false)
-	public Result<?> delete(@PathVariable String clientId) {
-		boolean flag = deviceCabinetBodyService.removeById(clientId);
+	@PostMapping("/delete/{serialNo}")
+	@LogAnnotation(module="biz-center",recordRequestParam=false)
+	public Result<?> delete(@PathVariable String serialNo) {
+		boolean flag = deviceCabinetBodyService.removeById(serialNo);
 		if(flag) {
 			return Result.succeed();
 		}
@@ -117,9 +117,9 @@ public class DeviceCabinetBodyController {
 	 * @param id
 	 */
 	@ApiOperation(value = "获取")
-	@PostMapping("/get/{clientId}")
-	public Result<?> get(@PathVariable String clientId) {
-		DeviceCabinetBody deviceCabinetBody = deviceCabinetBodyService.getById(clientId);
+	@PostMapping("/get/{serialNo}")
+	public Result<?> get(@PathVariable String serialNo) {
+		DeviceCabinetBody deviceCabinetBody = deviceCabinetBodyService.getById(serialNo);
 		return Result.succeed(deviceCabinetBody, CommonErrorCode.OPERATION_SUCCESS.getMessage());
 	}
 }

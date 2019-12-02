@@ -103,7 +103,7 @@ public class ContactsInfoController {
 	 */
 	@ApiOperation(value = "删除")
 	@PostMapping("/delete/{id}")
-	@LogAnnotation(module="user-center",recordRequestParam=false)
+	@LogAnnotation(module="biz-center",recordRequestParam=false)
 	public Result<?> delete(@PathVariable Integer id) {
 		boolean flag = contactsInfoService.removeById(id);
 		if(flag) {

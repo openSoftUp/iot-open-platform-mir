@@ -102,10 +102,10 @@ public class SiteResourcesTypeController {
 	 * @param id
 	 */
 	@ApiOperation(value = "删除")
-	@PostMapping("/delete/{clientId}")
-	@LogAnnotation(module="user-center",recordRequestParam=false)
-	public Result<?> delete(@PathVariable String clientId) {
-		boolean flag = siteResourcesTypeService.removeById(clientId);
+	@PostMapping("/delete/{code}")
+	@LogAnnotation(module="biz-center",recordRequestParam=false)
+	public Result<?> delete(@PathVariable String code) {
+		boolean flag = siteResourcesTypeService.removeById(code);
 		if(flag) {
 			return Result.succeed();
 		}
@@ -117,9 +117,9 @@ public class SiteResourcesTypeController {
 	 * @param id
 	 */
 	@ApiOperation(value = "获取")
-	@PostMapping("/get/{clientId}")
-	public Result<?> get(@PathVariable String clientId) {
-		SiteResourcesType siteResourcesType = siteResourcesTypeService.getById(clientId);
+	@PostMapping("/get/{code}")
+	public Result<?> get(@PathVariable String code) {
+		SiteResourcesType siteResourcesType = siteResourcesTypeService.getById(code);
 		return Result.succeed(siteResourcesType, CommonErrorCode.OPERATION_SUCCESS.getMessage());
 	}
 }

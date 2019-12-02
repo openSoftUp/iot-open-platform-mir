@@ -102,10 +102,10 @@ public class DeviceLockControlPanelController {
 	 * @param id
 	 */
 	@ApiOperation(value = "删除")
-	@PostMapping("/delete/{clientId}")
-	@LogAnnotation(module="user-center",recordRequestParam=false)
-	public Result<?> delete(@PathVariable String clientId) {
-		boolean flag = deviceLockControlPanelService.removeById(clientId);
+	@PostMapping("/delete/{serialNo}")
+	@LogAnnotation(module="biz-center",recordRequestParam=false)
+	public Result<?> delete(@PathVariable String serialNo) {
+		boolean flag = deviceLockControlPanelService.removeById(serialNo);
 		if(flag) {
 			return Result.succeed();
 		}
@@ -117,9 +117,9 @@ public class DeviceLockControlPanelController {
 	 * @param id
 	 */
 	@ApiOperation(value = "获取")
-	@PostMapping("/get/{clientId}")
-	public Result<?> get(@PathVariable String clientId) {
-		DeviceLockControlPanel deviceLockControlPanel = deviceLockControlPanelService.getById(clientId);
+	@PostMapping("/get/{serialNo}")
+	public Result<?> get(@PathVariable String serialNo) {
+		DeviceLockControlPanel deviceLockControlPanel = deviceLockControlPanelService.getById(serialNo);
 		return Result.succeed(deviceLockControlPanel, CommonErrorCode.OPERATION_SUCCESS.getMessage());
 	}
 }
