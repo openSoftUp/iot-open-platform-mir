@@ -424,7 +424,7 @@ CREATE TABLE  site_resources_type (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
    PRIMARY KEY (code) 
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='站点资源详情';
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='站点资源类型';
 
 DROP TABLE IF EXISTS site_resources;
 CREATE TABLE  site_resources (
