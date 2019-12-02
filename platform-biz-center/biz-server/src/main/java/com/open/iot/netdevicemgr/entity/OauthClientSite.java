@@ -29,15 +29,10 @@ public class OauthClientSite extends Model<OauthClientSite> {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-     * 主键,ID
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
-
     /**
      * 客户端ID
      */
+    @TableId(value = "id", type = IdType.INPUT)
     private String clientId;
 
     /**
@@ -58,7 +53,7 @@ public class OauthClientSite extends Model<OauthClientSite> {
 
     @Override
     protected Serializable pkVal() {
-        return this.id;
+        return this.clientId;
     }
 
 }

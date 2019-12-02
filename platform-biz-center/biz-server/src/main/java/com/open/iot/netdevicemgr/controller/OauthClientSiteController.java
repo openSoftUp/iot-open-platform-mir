@@ -97,10 +97,10 @@ public class OauthClientSiteController {
 	 * @param id
 	 */
 	@ApiOperation(value = "删除")
-	@PostMapping("/delete/{id}")
+	@PostMapping("/delete/{clientId}")
 	@LogAnnotation(module="user-center",recordRequestParam=false)
-	public Result<?> delete(@PathVariable Integer id) {
-		boolean flag = oauthClientSiteService.removeById(id);
+	public Result<?> delete(@PathVariable String clientId) {
+		boolean flag = oauthClientSiteService.removeById(clientId);
 		if(flag) {
 			return Result.succeed();
 		}
@@ -112,9 +112,9 @@ public class OauthClientSiteController {
 	 * @param id
 	 */
 	@ApiOperation(value = "获取")
-	@PostMapping("/get/{id}")
-	public Result<?> get(@PathVariable Integer id) {
-		OauthClientSite oauthClientSite = oauthClientSiteService.getById(id);
+	@PostMapping("/get/{clientId}")
+	public Result<?> get(@PathVariable String clientId) {
+		OauthClientSite oauthClientSite = oauthClientSiteService.getById(clientId);
 		return Result.succeed(oauthClientSite, CommonErrorCode.OPERATION_SUCCESS.getMessage());
 	}
 
