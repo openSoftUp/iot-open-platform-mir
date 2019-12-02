@@ -5,8 +5,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.open.iot.annotation.log.LogAnnotation;
 import com.open.iot.modelandutils.base.CommonErrorCode;
-import com.open.iot.modelandutils.base.PageRequest;
 import com.open.iot.modelandutils.base.Result;
+import com.open.iot.netdevicemgr.dto.OauthClientSiteDto;
 import com.open.iot.netdevicemgr.entity.OauthClientSite;
 import com.open.iot.netdevicemgr.service.OauthClientSiteService;
 
@@ -46,10 +46,10 @@ public class OauthClientSiteController {
 	 */
 	@ApiOperation(value = "分页列表")
 	@GetMapping("/page/list")
-	public Result<?> findPage(PageRequest pageRequest,String clientId) throws JsonProcessingException {
-		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+	public Result<?> findPage(OauthClientSiteDto dto) throws JsonProcessingException {
+		PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
 		QueryWrapper<OauthClientSite> queryWrapper = new QueryWrapper<OauthClientSite>();
-		if(StringUtils.isNotBlank(clientId)) queryWrapper.lambda().eq(OauthClientSite::getClientId, clientId);
+		if(StringUtils.isNotBlank(dto.getClientId())) queryWrapper.lambda().eq(OauthClientSite::getClientId, dto.getClientId());
 		List<OauthClientSite> allList = oauthClientSiteService.list(queryWrapper);
 		PageInfo<OauthClientSite> pageInfo = new PageInfo<>(allList);
 		return Result.succeed(pageInfo, CommonErrorCode.OPERATION_SUCCESS.getMessage());

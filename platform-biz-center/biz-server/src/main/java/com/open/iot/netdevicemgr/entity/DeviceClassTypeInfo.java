@@ -43,7 +43,7 @@ public class DeviceClassTypeInfo extends Model<DeviceClassTypeInfo> {
     /**
      * 1:启用;2:停用;3:删除
      */
-    private Integer classTypeStatus;
+    private Integer state;
 
     /**
      * 创建时间

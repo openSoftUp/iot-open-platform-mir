@@ -73,7 +73,7 @@ public class DeviceFactoryInfo extends Model<DeviceFactoryInfo> {
     /**
      * 1:启用;2:停用;3:删除
      */
-    private Integer factoryStatus;
+    private Integer state;
 
     /**
      * 创建时间

@@ -48,7 +48,7 @@ public class DeviceProductTypeInfo extends Model<DeviceProductTypeInfo> {
     /**
      * 1:启用;2:停用;3:删除
      */
-    private Integer productTypeStatus;
+    private Integer state;
 
     /**
      * 对应的设备类型ID

@@ -19,8 +19,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.open.iot.annotation.log.LogAnnotation;
 import com.open.iot.modelandutils.base.CommonErrorCode;
-import com.open.iot.modelandutils.base.PageRequest;
 import com.open.iot.modelandutils.base.Result;
+import com.open.iot.netdevicemgr.dto.DeviceFactoryInfoDto;
 import com.open.iot.netdevicemgr.entity.DeviceFactoryInfo;
 import com.open.iot.netdevicemgr.service.DeviceFactoryInfoService;
 
@@ -52,8 +52,8 @@ public class DeviceFactoryInfoController {
 	 */
 	@ApiOperation(value = "分页列表")
 	@GetMapping("/page/list")
-	public Result<?> findPage(PageRequest pageRequest) throws JsonProcessingException {
-		PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+	public Result<?> findPage(DeviceFactoryInfoDto dto) throws JsonProcessingException {
+		PageHelper.startPage(dto.getPageNum(), dto.getPageSize());
 		QueryWrapper<DeviceFactoryInfo> queryWrapper = new QueryWrapper<DeviceFactoryInfo>();
 		List<DeviceFactoryInfo> allList = deviceFactoryInfoService.list(queryWrapper);
 		PageInfo<DeviceFactoryInfo> pageInfo = new PageInfo<>(allList);
